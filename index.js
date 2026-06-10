@@ -11,7 +11,7 @@ const winningScore = 3;
 let tieScore = 0;
 
 for (let i = 0; i < choices.length; i++) {
-    console.log(`Choice ${i + 1}: ${choices[i]}`);
+  console.log(`Choice ${i + 1}: ${choices[i]}`);
 }
 
 // DOM stuff
@@ -24,99 +24,102 @@ const tieCount = document.querySelector(".tie_score");
 console.log(tieScore);
 
 const getComputerChoice = () => {
-    const randomNrForComp = Math.floor(Math.random() * choices.length);
-    computerChoice = choices[randomNrForComp];
+  const randomNrForComp = Math.floor(Math.random() * choices.length);
+  computerChoice = choices[randomNrForComp];
 };
 
 const displayChoices = () => {
-    document.querySelector(".user_choice").textContent = userChoice;
-    document.querySelector(".comp_choice").textContent = computerChoice;
+  document.querySelector(".user_choice").textContent = userChoice;
+  document.querySelector(".comp_choice").textContent = computerChoice;
 };
 
 const displayScore = () => {
-    document.querySelector(".score").textContent = userScore;
-    document.querySelector(".score").textContent = computerScore;
+  document.querySelector(".score").textContent = userScore;
+  document.querySelector(".score").textContent = computerScore;
 };
 
 // click for the btns
 // function
 const runGame = () => {
-    buttons.forEach((item) => {
-        item.addEventListener("click", () => setUserChoice(item));
-        item.disabled = true;
-    });
+  buttons.forEach((item) => {
+    item.addEventListener("click", () => setUserChoice(item));
+    item.disabled = true;
+  });
 };
 
 // GAME LOGIC
 let rounds = 0;
 
 const gameResult = () => {
-    if (userChoice === computerChoice) {
-        result.textContent = "It's a tie!";
-        tieScore++;
-        tieCount.textContent = tieScore;
-    } else if (
-        (userChoice === "Rock" && computerChoice === "Scissors") ||
-        (userChoice === "Paper" && computerChoice === "Rock") ||
-        (userChoice === "Scissors" && computerChoice === "Paper")
-    ) {
-        userScore++;
-        document.querySelector(".result_txt").textContent = "You win!";
-        document.querySelector(".user_score").textContent = userScore;
-    } else {
-        computerScore++;
-        document.querySelector(".result_txt").textContent = "Computer wins!";
-        document.querySelector(".comp_score").textContent = computerScore;
-    }
-
+  if (userChoice === computerChoice) {
+    result.textContent = "It's a tie!";
+    tieScore++;
+    tieCount.textContent = tieScore;
+  } else if (
+    (userChoice === "Rock" && computerChoice === "Scissors") ||
+    (userChoice === "Paper" && computerChoice === "Rock") ||
+    (userChoice === "Scissors" && computerChoice === "Paper")
+  ) {
+    userScore++;
+    document.querySelector(".result_txt").textContent = "You win!";
+    document.querySelector(".user_score").textContent = userScore;
+  } else {
+    computerScore++;
+    document.querySelector(".result_txt").textContent = "Computer wins!";
+    document.querySelector(".comp_score").textContent = computerScore;
+  }
 };
 
 const setUserChoice = (button) => {
-    if (rounds < winningScore) {
-        userChoice = button.textContent;
-        getComputerChoice();
-        displayChoices();
-        gameResult();
-        rounds++;
+  if (rounds < winningScore) {
+    userChoice = button.textContent;
+    getComputerChoice();
+    displayChoices();
+    gameResult();
+    rounds++;
+  }
+  if (rounds === winningScore) {
+    if (userScore > computerScore) {
+      document.querySelector(".result_txt").textContent =
+        "Game over! User won!";
     }
-    if (rounds === winningScore) {
-        if (userScore > computerScore) {
-            document.querySelector('.result_txt').textContent = 'Game over! User won!'
-        } if (userScore < computerScore) {
-            document.querySelector('.result_txt').textContent = 'Game over! Computer won!'
-        } else {
-            document.querySelector('.result_txt').textContent = "Game over! It's a tie!"
-        }
-        buttons.forEach(btn => btn.disabled = true);
+    if (userScore < computerScore) {
+      document.querySelector(".result_txt").textContent =
+        "Game over! Computer won!";
+    } else {
+      document.querySelector(".result_txt").textContent =
+        "Game over! It's a tie!";
     }
+    buttons.forEach((btn) => (btn.disabled = true));
+  }
 };
 
 const startGame = () => {
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].disabled = false; 
-        buttons[i].addEventListener("click", () => {
-            setUserChoice(buttons[i]);
-        });
-    }
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = false;
+    buttons[i].addEventListener("click", () => {
+      setUserChoice(buttons[i]);
+    });
+  }
 };
 
 // function to reset game
 const restartGame = () => {
-    restartBtn.addEventListener("click", () => {
-        rounds = 0;
-        userScore = 0;
-        computerScore = 0;
-        tieScore = 0;
+  restartBtn.addEventListener("click", () => {
+    rounds = 0;
+    userScore = 0;
+    computerScore = 0;
+    tieScore = 0;
 
-        document.querySelector(".user_score").textContent = userScore;
-        document.querySelector(".comp_score").textContent = computerScore;
-        document.querySelector(".tie_score").textContent = "0";
-        document.querySelector(".user_choice").textContent = "?";
-        document.querySelector(".comp_choice").textContent = "?";
-        result.textContent = "-";
-        buttons.forEach(btn => btn.disabled = false);
-    });
+    document.querySelector(".user_score").textContent = userScore;
+    document.querySelector(".comp_score").textContent = computerScore;
+    document.querySelector(".tie_score").textContent = "0";
+    document.querySelector(".user_choice").textContent = "?";
+    document.querySelector(".comp_choice").textContent = "?";
+    result.textContent = "-";
+    buttons.forEach((btn) => (btn.disabled = false));
+  });
 };
 
-startGame()
-restartGame()
+startGame();
+restartGame();
